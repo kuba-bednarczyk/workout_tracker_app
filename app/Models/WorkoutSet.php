@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class WorkoutSet extends Model
 {
+    use HasFactory;
     protected $fillable = ['workout_id', 'exercise_id', 'reps', 'weight'];
 
     public function workout() {
@@ -13,6 +15,6 @@ class WorkoutSet extends Model
     }
 
     public function exercise() {
-        return $this->hasMany(Exercise::class);
+        return $this->belongsTo(Exercise::class)->withTrashed();
     }
 }

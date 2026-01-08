@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('muscle_group_id')->constrained()->cascadeOnDelete();
             $table->text('description')->nullable();
             $table->timestamps();
