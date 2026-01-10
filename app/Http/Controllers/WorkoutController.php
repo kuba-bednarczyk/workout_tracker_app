@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Workout;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
@@ -10,12 +11,29 @@ class WorkoutController extends Controller
 {
     // wyświetlenie kafelków na dashboardzie
     public function index() {
+        $userId = auth()->id();
+
         $workouts = Workout::where('user_id', auth()->id())
-            ->with('workoutSets.exercise')
+            ->withCount('workoutSets')
+            ->with(['workoutSets.exercise'])
             ->orderBy('date', 'desc')
+            ->limit(5)
             ->get();
 
-        return view('dashboard', compact('workouts'));
+        // statystyki
+        $stats = [
+            'this_month' => Workout::where('user_id', $userId)
+                ->whereMonth('date', Carbon::now()->month)
+                ->whereYear('date', Carbon::now()->year)
+                ->count(),
+            'total'=>Workout::where('user_id', $userId)->count(),
+            'exercises_count'=>Exercise::count(),
+            'this_week'=>Workout::where('user_id', $userId)
+                ->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->count()
+        ];
+
+        return view('dashboard', compact('workouts', 'stats'));
     }
 
     // formularz - nazwa treningu

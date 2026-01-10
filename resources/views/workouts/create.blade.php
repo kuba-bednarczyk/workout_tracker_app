@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800  leading-tight">
             {{ __('Rozpocznij Nowy Trening') }}
         </h2>
     </x-slot>
@@ -23,9 +23,10 @@
 
                     <div class="mb-10">
                         <label for="date" class="block text-sm font-medium text-gray-400 mb-2 uppercase tracking-wider">
-                            Data treningu
+                            Data i Godzina treningu
                         </label>
-                        <input type="date" name="date" id="date" value="{{ date('Y-m-d') }}"
+                        <input type="datetime-local" name="date" id="date"
+                               value="{{ now()->format('Y-m-d\TH:i') }}"
                                class="w-full p-4 rounded-xl border-gray-700 bg-gray-900 text-gray-100 focus:border-indigo-500 focus:ring-indigo-500 shadow-inner transition"
                                required>
                     </div>
