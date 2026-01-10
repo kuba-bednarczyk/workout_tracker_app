@@ -17,7 +17,7 @@ class WorkoutSetController extends Controller
 
         WorkoutSet::create($validated);
 
-        return back()->with('success', 'Seria zapisana!');
+        return redirect()->back()->withInput($request->only('exercise_id', 'weight'));
     }
 
     public function destroy($id) {

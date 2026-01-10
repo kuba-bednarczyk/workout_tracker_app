@@ -23,7 +23,10 @@
                         <label class="block text-sm text-gray-400 mb-2">Ćwiczenie</label>
                         <select name="exercise_id" class="w-full bg-gray-900 border-gray-700 rounded-lg text-white p-3">
                             @foreach($exercises as $exercise)
-                                <option value="{{ $exercise->id }}">{{ $exercise->name }}</option>
+                                <option value="{{ $exercise->id }}"
+                                    {{ old('exercise_id') == $exercise->id ? 'selected' : '' }}>
+                                    {{ $exercise->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

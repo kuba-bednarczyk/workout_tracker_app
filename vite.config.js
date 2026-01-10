@@ -8,4 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        // To wymusza, żeby serwer deweloperski stylów zawsze był pod tym samym adresem
+        host: 'localhost',
+        hmr: {
+            host: 'localhost',
+        },
+    },
 });
