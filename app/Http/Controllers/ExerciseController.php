@@ -63,7 +63,13 @@ class ExerciseController extends Controller
      */
     public function edit(Exercise $exercise)
     {
-        //
+        if ($exercise->user_id !== auth()->id()) {
+            abort(403, 'Nie mozesz edytować cwiczen systemowych ');
+        }
+
+        $muscleGroups = MuscleGroup::all();
+
+        return view('exercises.edit', compact('exercise', 'muscleGroups'));
     }
 
     /**
@@ -71,7 +77,18 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, Exercise $exercise)
     {
-        //
+        if ($exercise->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'muscle_group_id' => 'required|exists:muscle_groups,id',
+        ]);
+
+        $exercise->update($validated);
+
+        return redirect()->route('exercises.index')->with('status', 'Ćwiczenie zaktualizowano pomyślnie');
     }
 
     /**

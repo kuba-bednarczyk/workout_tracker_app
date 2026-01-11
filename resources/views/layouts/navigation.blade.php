@@ -19,6 +19,16 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('workouts.history')" :active="request()->routeIs('workouts.history')">
+                        {{ __('Historia treningów') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('workouts.templates')" :active="request()->routeIs('workouts.templates')">
+                        {{ __('Plany treningowe') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('exercises.index')" :active="request()->routeIs('exercises.*')">
                         {{ __('Ćwiczenia') }}
                     </x-nav-link>
@@ -76,9 +86,25 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Przegląd') }}
             </x-responsive-nav-link>
         </div>
+        <div class="pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('workouts.history')" :active="request()->routeIs('workouts.history')">
+                {{ __('Historia treningów') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('workouts.templates')" :active="request()->routeIs('workouts.templates')">
+                {{ __('Plany treningowe') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('exercises.index')" :active="request()->routeIs('exercises.*')">
+                {{ __('Ćwiczenia') }}
+            </x-responsive-nav-link>
+        </div>
+
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
