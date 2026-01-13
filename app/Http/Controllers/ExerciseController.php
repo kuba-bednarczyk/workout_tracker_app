@@ -49,7 +49,6 @@ class ExerciseController extends Controller
         Exercise::create($validated);
         return redirect()->route('exercises.index')->with('success', 'Dodano ćwiczenie');
     }
-
     /**
      * Display the specified resource.
      */

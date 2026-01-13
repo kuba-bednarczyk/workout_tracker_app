@@ -78,19 +78,29 @@
                                             {{ $workout->workout_sets_count }} serii
                                         </span>
                                 </td>
+                                {{-- przyciski read/edit/delete --}}
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-2 items-center">
-                                    <a href="{{ route('workouts.show', $workout->id) }}" class="text-indigo-600 hover:text-indigo-900 font-bold p-2 bg-indigo-50 rounded hover:bg-indigo-100 transition">
-                                        Otwórz
+                                    <a href="{{ route('workouts.show', $workout->id) }}"
+                                       class="group flex items-center gap-1 border border-indigo-600 text-indigo-600 bg-white hover:bg-indigo-600 hover:text-white transition-all duration-200 px-3 py-1.5 rounded-md text-xs uppercase tracking-wider font-bold shadow-sm">
+                                        <span>Szczegóły</span>
                                     </a>
 
-                                    <a href="{{ route('workouts.edit', $workout->id) }}" class="text-gray-400 hover:text-yellow-600 p-2 transition" title="Edytuj">
-                                        ✏️
+                                    <a href="{{ route('workouts.edit', $workout->id) }}"
+                                       class="group flex items-center gap-1 border border-amber-500 text-amber-600 bg-white hover:bg-amber-500 hover:text-white transition-all duration-200 px-3 py-1.5 rounded-md text-xs uppercase tracking-wider font-bold shadow-sm">
+                                        <span class="group-hover:text-white">✏️</span>
+                                        <span>Info</span>
                                     </a>
 
-                                    <form action="{{ route('workouts.destroy', $workout->id) }}" method="POST" onsubmit="return confirm('Usunąć ten trening?')">
+                                    <form action="{{ route('workouts.destroy', $workout->id) }}" method="POST"
+                                          onsubmit="return confirm('Czy na pewno chcesz usunąć ten trening? Wszystkie serie zostaną utracone.')"
+                                          class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="text-gray-400 hover:text-red-600 p-2 transition" title="Usuń">🗑️</button>
+                                        <button type="submit"
+                                                class="group flex items-center gap-1 border border-red-500 text-red-600 bg-white hover:bg-red-600 hover:text-white transition-all duration-200 px-3 py-1.5 rounded-md text-xs uppercase tracking-wider font-bold shadow-sm">
+                                            <span class="group-hover:text-white">🗑️</span>
+                                            <span>Usuń</span>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

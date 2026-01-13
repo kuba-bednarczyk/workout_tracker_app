@@ -2,7 +2,11 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-                {{ __('Przegląd') }}
+                @if(now()->hour >= 4 && now()->hour < 18)
+                    ☀️ Dzień dobry, <span class="text-indigo-600">{{ Auth::user()->name }}</span>!
+                @else
+                    🌙 Dobry wieczór, <span class="text-indigo-600">{{ Auth::user()->name }}</span>!
+                @endif
             </h2>
             <a href="{{ route('workouts.create') }}"
                class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition shadow-md flex items-center gap-2">
@@ -47,7 +51,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                     <h3 class="text-lg font-bold text-gray-900">Ostatnie treningi</h3>
-                    <a href="{{ route('workouts.index') }}" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                    <a href="{{ route('workouts.history') }}" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
                         Zobacz historię →
                     </a>
                 </div>

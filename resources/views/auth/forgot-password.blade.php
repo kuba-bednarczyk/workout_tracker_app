@@ -1,25 +1,35 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="text-center mb-6">
+        <h1 class="font-extrabold text-2xl text-gray-900 mb-2 tracking-tight">
+            Reset Hasła
+        </h1>
+        <div class="mb-4 text-sm text-gray-500 leading-relaxed">
+            {{ __('Zapomniałeś hasła? Żaden problem. Podaj swój adres email, a wyślemy Ci link do zresetowania hasła.') }}
+        </div>
     </div>
 
-    <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
 
-        <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            <x-input-label for="email" value="Twój Email" class="uppercase tracking-wide text-xs font-bold text-gray-700 mb-1" />
+            <x-text-input id="email" class="block mt-1 w-full rounded-lg border-gray-300 p-2.5 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm"
+                          type="email" name="email" :value="old('email')" required autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
+        <div class="mt-6">
+            <x-primary-button class="w-full justify-center py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md transition transform hover:-translate-y-0.5 uppercase tracking-wide text-sm">
+                {{ __('Wyślij link resetujący') }}
             </x-primary-button>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="{{ route('login') }}" class="text-sm text-gray-400 hover:text-gray-600 transition">
+                ← Wróć do logowania
+            </a>
         </div>
     </form>
 </x-guest-layout>

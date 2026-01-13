@@ -141,7 +141,7 @@ class WorkoutController extends Controller
     {
         $templates = Workout::where('user_id', auth()->id())
             ->where('is_template', true)
-            ->withCount('workoutSets') // Możesz tu dodać ->with('workoutSets.exercise') jeśli chcesz podgląd
+            ->withCount('workoutSets')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -157,37 +157,43 @@ class WorkoutController extends Controller
         return view('workouts.edit', compact('workout'));
     }
 
-    public function update(Request $request, Workout $workout) {
+    public function update(Request $request, Workout $workout)
+    {
+        // Zabezpieczenie przed nieautoryzowanym dostępem
         if ($workout->user_id !== auth()->id()) {
             abort(403);
         }
 
-        // Walidacja (to co masz)
+        // Walidacja danych
         $rules = [
             'name' => 'required|string|max:255'
         ];
 
+        // jeżeli to nie jest szablon treningu, wymagamy daty
         if (!$workout->is_template) {
             $rules['date'] = 'required|date';
         }
 
         $validated = $request->validate($rules);
-
-        if(!$workout->is_template && $request->has('date')) {
-            $validated['date'] = Carbon::parse($request->date);
-        }
-
-        // Aktualizacja nazwy w bazie
         $workout->update($validated);
 
-        // --- TU JEST ZMIANA ---
-        // Nieważne czy to szablon, czy trening - po zmianie nazwy
-        // ZAWSZE kieruj do widoku szczegółów (show).
-        // Tam masz już gotową tabelę do dodawania/usuwania serii.
 
-        return redirect()
-            ->route('workouts.show', $workout->id)
-            ->with('status', 'Nazwa zapisana. Teraz możesz edytować ćwiczenia.');
+        $action = $request->input('action');
+
+        if ($action === 'edit_exercises') {
+            // jeżeli kliknięto "edytuj ćwiczenia" - idziemy do show (widok dodawania serii)
+            return to_route('workouts.show', $workout)
+                ->with('success', 'Dane zapisane. Możesz edytować ćwiczenia.');
+        }
+
+        // W przeciwnym razie ("zapisz informacje") wracamy do listy treningów/szablonów
+        if ($workout->is_template) {
+            return to_route('workouts.templates')
+                ->with('success', 'Zaktualizowano nazwę planu.');
+        } else {
+            return to_route('workouts.history')
+            ->with('success', 'Zaktualizowano informacje o treningu.');
+        }
     }
 
     public function destroy($id) {

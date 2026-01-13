@@ -6,12 +6,12 @@
 
                 @if($workout->is_template)
                     <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded ml-2">
-                SZABLON
-            </span>
-                    @else
-                        <span class="text-gray-500 text-sm ml-2 font-normal">
-                ({{ \Carbon\Carbon::parse($workout->date)->format('d.m.Y H:i') }})
-            </span>
+                        PLAN TRENINGOWY
+                    </span>
+                @else
+                    <span class="text-gray-500 text-sm ml-2 font-normal">
+                        ({{ \Carbon\Carbon::parse($workout->date)->format('d.m.Y H:i') }})
+                    </span>
                 @endif
             </h2>
             <div class="flex gap-4">
@@ -19,16 +19,21 @@
                     ✏️ Edytuj info
                 </a>
                 <span class="text-gray-300">|</span>
-                <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium transition">
-                    ← Powrót
-                </a>
+                @if($workout->is_template)
+                    <a href="{{ route('workouts.templates') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium transition">
+                        ← Powrót
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-gray-700 text-sm font-medium transition">
+                        ← Powrót
+                    </a>
+                @endif
             </div>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
             <div class="lg:col-span-1">
                 <div class="bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-200 sticky top-6">
                     <h3 class="text-lg font-bold text-gray-800 mb-6 uppercase tracking-wider text-sm border-b pb-2 border-gray-200">
@@ -122,6 +127,7 @@
                                     </div>
                                 @endforeach
                             </div>
+
                         </div>
                     @empty
                         <div class="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-xl border border-dashed border-gray-300 text-center">
@@ -130,6 +136,24 @@
                             <p class="text-gray-500 text-sm">Wybierz ćwiczenie z panelu po lewej<br>i dodaj swoją pierwszą serię!</p>
                         </div>
                     @endforelse
+                </div>
+                <div class="mt-8 flex gap-4">
+                    @if($workout->is_template)
+                        <a href="{{ route('workouts.templates') }}"
+                           class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-xl text-center hover:bg-gray-50 transition shadow-sm uppercase tracking-wide text-sm flex justify-center items-center">
+                            Zapisz plan
+                        </a>
+                        <a href="{{ route('workouts.create', ['source_template_id' => $workout->id]) }}"
+                           class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl text-center transition shadow-md uppercase tracking-wide text-sm flex justify-center items-center gap-2">
+                            Rozpocznij trening
+                        </a>
+                    @else
+                        <a href="{{ route('dashboard') }}"
+                            class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-4 rounded-xl text-center transition shadow-md uppercase tracking-wide text-sm flex justify-center items-center gap-2"
+                        >
+                            Zakończ trening
+                        </a>
+                    @endif
                 </div>
             </div>
 
