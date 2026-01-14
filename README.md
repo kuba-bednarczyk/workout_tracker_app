@@ -33,7 +33,7 @@ Wersje programów wykorzystane do tworzenia aplikacji:
 1. **Przygotowanie plików:**
    Wypakuj archiwum z projektem do dowolnego folderu lub sklonuj repozytorium za pomocą komendy:
     ```bash
-    git clone https://github.com/kuba-bednarczyk/workout_tracker_app/
+    git clone https://github.com/kuba-bednarczyk/workout-tracker-app/
    cd workout_tracker_app
    ```
 
