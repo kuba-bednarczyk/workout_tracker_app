@@ -1,59 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Projekt zaliczeniowy z laboratorium "Programowanie aplikacji internetowych"
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Tematyka projektu: Workout Tracker (Planer treningów na siłownię)
+Aplikacja internetowa do śledzenia postępów na siłowni. Umożliwia rejestrowanie treningów, zarządzanie planami treningowymi oraz analizę postępów.
 
-## About Laravel
+## Autor
+Jakub Bednarczyk
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funkcjonalności
+- **Uwierzytelnianie:** Logowanie, rejestracja, reset hasła.
+- **Treningi:** Tworzenie sesji treningowych, dodawanie serii (ciężar/powtórzenia).
+- **System Szablonów:** Możliwość stworzenia planu (np. FBW A) i szybkiego rozpoczęcia treningu na jego podstawie (kopiowanie serii).
+- **Baza Ćwiczeń:** Hybrydowy system ćwiczeń – ćwiczenia systemowe (dla wszystkich) oraz prywatne ćwiczenia użytkownika.
+- **Dashboard:** Statystyki tygodniowe, miesięczne oraz lista ostatnich aktywności.
+- **Historia:** Przeglądanie i filtrowanie odbytych treningów.
+- **Zabezpieczenia:** Pełna walidacja danych i autoryzacja (użytkownik widzi i edytuje tylko swoje dane).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Narzędzia i technologie
+- **Backend:** Laravel 12, PHP 8.2
+- **Baza danych:** SQLite 
+- **Frontend:** Laravel Blade, TailwindCSS
+- **Inne:** Laravel Breeze (Auth), Carbon (Data/Czas)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Wymagania
+Wersje programów wykorzystane do tworzenia aplikacji:
+- PHP 8.2.x
+- Laravel Framework 12.45.2
+- Composer 2.9.3
+- Node.js 24.12.0
+- NPM 10.8.0
 
-## Learning Laravel
+## Uruchomienie aplikacji
+1. **Przygotowanie plików:**
+   Wypakuj archiwum z projektem do dowolnego folderu lub sklonuj repozytorium za pomocą komendy:
+    ```bash
+    git clone https://github.com/kuba-bednarczyk/workout_tracker_app/
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+2. **Instalacja zależności:**
+   Otwórz terminal w folderze projektu i wykonaj komendy:
+   ```bash
+   composer install
+   npm install
+   ```
+3. **Konfiguracja środowiska:** Skopiuj plik `.env.example` do `.env`: 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    ```bash
+    cp .env.example .env
+    ```
+   _(W systemie Windows można ręcznie skopiować w eksploratorze i zmienić nazwę na .env)_
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Baza danych:**
+   Aplikacja skonfigurowana jest pod SQLite, więc nie wymaga zewnętrznego serwera MySQL. Stwórz plik bazy danych o nazwie database.sqlite w folderze /database (jeśli nie istnieje).
 
-### Premium Partners
+    Lub wpisz w terminalu (w folderze projektu):
+    - Windows (PowerShell): `New-Item database/database.sqlite`
+    - Linux/Mac/Git Bash: `touch database/database.sqlite `
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
+5. **Migracja i Seeder:**
+Uruchom migracje, aby utworzyć tabele oraz wypełnić przykładowymi danymi:
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+6. **Start serwera**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    W jednym oknie terminalu uruchom serwer PHP:
+    ```bash
+    php artisan serve
+    ```
+   
+    W drugim oknie terminalu uruchom kompilator zasobów (dla styli CSS):
+    
+    ```bash
+   npm run dev
+    ```
+7. **Dostęp:**
 
-## Code of Conduct
+    Otwórz przeglądarkę pod adresem: `http://localhost:8000`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Konta testowe
+W procesie seedowania tworzone jest automatycznie konto z pełną historią i ćwiczeniami:
+- **Użytkownik Admin:** 
+  - **Login:** admin@example.com
+  - **Hasło:** admin
 
-## Security Vulnerabilities
+### Uwagi
+1. Problem z uruchomieniem serwera (zajęty port): jeśli komenda `php artisan serve` zwraca błąd `Failed to listen on 127.0.0.1:8000` (port zajęty), możesz wymusić uruchomienie aplikacji na innym porcie, np. 8080:
+    ```bash
+   php artisan serve --port=8080
+    ```
+2. W przypadku problemów z wyglądem strony (brak stylów), upewnij się, że komenda `npm run dev` jest uruchomiona w tle i wtyczki typu AdBlock są wyłączone.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. Aplikacja wykorzystuje mechanizm `SoftDeletes` dla modelu `Exercise`. Usunięcie ćwiczenia z bazy nie powoduje błędów w historii odbytych treningów.
+    
+    

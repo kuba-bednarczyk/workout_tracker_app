@@ -61,7 +61,7 @@
                         @forelse($workouts as $workout)
                             <tr class="hover:bg-indigo-50 transition group">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-bold text-gray-900">
+                                    <div class="text-sm font-bold text-gray-900">{{----}}
                                         {{ \Carbon\Carbon::parse($workout->date)->translatedFormat('F Y') }}
                                     </div>
                                     <div class="text-xs text-gray-500">
@@ -78,7 +78,7 @@
                                             {{ $workout->workout_sets_count }} serii
                                         </span>
                                 </td>
-                                {{-- przyciski read/edit/delete --}}
+                                {{-- przyciski do edycji/usuwania--}}
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-2 items-center">
                                     <a href="{{ route('workouts.show', $workout->id) }}"
                                        class="group flex items-center gap-1 border border-indigo-600 text-indigo-600 bg-white hover:bg-indigo-600 hover:text-white transition-all duration-200 px-3 py-1.5 rounded-md text-xs uppercase tracking-wider font-bold shadow-sm">

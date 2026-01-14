@@ -44,29 +44,24 @@
         </div>
     </nav>
 
-    {{-- GŁÓWNA TREŚĆ (HERO) --}}
     <main class="flex-grow flex items-center justify-center px-4 py-12">
         <div class="max-w-5xl mx-auto text-center space-y-8">
 
-            {{-- Badge --}}
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-gray-200 text-indigo-700 text-xs font-bold uppercase tracking-wide shadow-sm">
                 <span class="flex h-2 w-2 rounded-full bg-indigo-600"></span>
                 Wersja 1.0
             </div>
 
-            {{-- Nagłówek --}}
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 leading-tight">
                 Śledź swoje treningi.<br>
                 <span class="text-indigo-600">Osiągaj cele.</span>
             </h1>
 
-            {{-- Opis --}}
             <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
                 Aplikacja do planowania treningów i śledzenia progresu siłowego.
                 Twórz szablony, zapisuj serie i analizuj historię treningów.
             </p>
 
-            {{-- Przyciski CTA --}}
             <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
                 @auth
                     <a href="{{ url('/dashboard') }}" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-lg shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
@@ -82,24 +77,20 @@
                 @endauth
             </div>
 
-            {{-- FUNKCJE (Wygląd identyczny jak Widgety w Dashboardzie) --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mt-16">
 
-                {{-- Karta 1 --}}
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-indigo-100 transition">
                     <div class="w-10 h-10 bg-indigo-50 rounded-lg flex items-center justify-center text-xl mb-4">📝</div>
                     <h3 class="text-lg font-bold text-gray-900 mb-2">Szablony Treningowe</h3>
                     <p class="text-gray-500 text-sm">Twórz gotowe plany treningowe i uruchamiaj je jednym kliknięciem.</p>
                 </div>
 
-                {{-- Karta 2 --}}
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-green-100 transition">
                     <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center text-xl mb-4">📈</div>
                     <h3 class="text-lg font-bold text-gray-900 mb-2">Historia i Progres</h3>
                     <p class="text-gray-500 text-sm">Pełny wgląd w historię. Sprawdzaj, jak rosną Twoje wyniki z tygodnia na tydzień.</p>
                 </div>
 
-                {{-- Karta 3 --}}
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-blue-100 transition">
                     <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-xl mb-4">🏋️‍♀️</div>
                     <h3 class="text-lg font-bold text-gray-900 mb-2">Baza Ćwiczeń</h3>
@@ -110,7 +101,6 @@
         </div>
     </main>
 
-    {{-- FOOTER --}}
     <footer class="py-8 text-center text-gray-400 text-sm">
         &copy; {{ date('Y') }} Jakub Bednarczyk. WorkoutTracker
     </footer>

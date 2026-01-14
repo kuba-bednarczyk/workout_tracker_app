@@ -4,12 +4,14 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ $workout->name }}
 
+                {{-- Logika: jeden widok obsługuje szablony i treningi, sprawdzamy tylko flage --}}
                 @if($workout->is_template)
                     <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded ml-2">
                         PLAN TRENINGOWY
                     </span>
                 @else
                     <span class="text-gray-500 text-sm ml-2 font-normal">
+                        {{-- Carbon do formatowania daty na czytelną (data i godzina) --}}
                         ({{ \Carbon\Carbon::parse($workout->date)->format('d.m.Y H:i') }})
                     </span>
                 @endif
@@ -40,14 +42,18 @@
                         Dodaj serię
                     </h3>
 
+                    {{-- Formularz dodawania serii --}}
                     <form action="{{ route('workout_sets.store') }}" method="POST">
                         @csrf
+
+                        {{-- Ukryte pole, żeby kontroler wiedział do ktorego treningu dodać serie  --}}
                         <input type="hidden" name="workout_id" value="{{ $workout->id }}">
 
                         <div class="mb-4">
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Ćwiczenie</label>
                             <select name="exercise_id" class="w-full border-gray-300 rounded-lg text-gray-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm bg-white">
                                 @foreach($exercises as $exercise)
+                                    {{-- old('exercise_id') sprawia, że po dodaniu serii select zostaje na tym samym ćwiczeniu - 'selected' --}}
                                     <option value="{{ $exercise->id }}" {{ old('exercise_id') == $exercise->id ? 'selected' : '' }}>
                                         {{ $exercise->name }}
                                     </option>
@@ -79,19 +85,23 @@
                 </div>
             </div>
 
+            {{-- Lista serii z powtorzeniami i  --}}
             <div class="lg:col-span-2">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 min-h-[400px]">
                     <h3 class="text-lg font-bold text-gray-800 mb-6 uppercase tracking-wider text-sm flex justify-between items-center">
                         <span>Zapisane serie</span>
                         <span class="text-xs font-normal text-gray-400 normal-case">
+                            {{--  Kalkulacja objętości treningowej (suma: ciężar*powtorzenia) --}}
                             Łączna objętość: {{ $workout->workoutSets->sum(fn($s) => $s->weight * $s->reps) }} kg
                         </span>
                     </h3>
 
+                    {{-- Grupujemy serie po ID ćwiczenia, żeby wyświetlać je blokami  --}}
                     @forelse($workout->workoutSets->groupBy('exercise_id') as $exerciseId => $sets)
                         <div class="mb-6 bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
                             <div class="bg-gray-50 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
                                 <h4 class="font-bold text-gray-800 flex items-center gap-2">
+                                    {{-- Pobieramy nazwę z pierwszego elementu grupy --}}
                                     🏋️‍♀️ {{ $sets->first()->exercise->name }}
                                 </h4>
                                 <span class="bg-white border border-gray-200 text-xs text-gray-500 px-2 py-0.5 rounded-full font-medium">
@@ -100,6 +110,7 @@
                             </div>
 
                             <div class="divide-y divide-gray-100">
+                                {{-- pętla wewnętrzna: iterujemy po konkretnych seriach danego ćwiczenia, naturalnie są ustawione w kolejności dodawania --}}
                                 @foreach($sets as $index => $set)
                                     <div class="flex justify-between items-center p-3 hover:bg-indigo-50 transition group">
                                         <div class="flex items-center gap-4">
@@ -129,6 +140,7 @@
                             </div>
 
                         </div>
+                    {{-- Stan pusty - jeśli nie ma jeszcze żadnych zapisanych serii w treningu --}}
                     @empty
                         <div class="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-xl border border-dashed border-gray-300 text-center">
                             <div class="text-4xl mb-4">📝</div>
@@ -138,11 +150,13 @@
                     @endforelse
                 </div>
                 <div class="mt-8 flex gap-4">
+                    {{-- Przyciski akcji na dole - inne dla szablonu, inne dla treningu --}}
                     @if($workout->is_template)
                         <a href="{{ route('workouts.templates') }}"
                            class="flex-1 bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-xl text-center hover:bg-gray-50 transition shadow-sm uppercase tracking-wide text-sm flex justify-center items-center">
                             Zapisz plan
                         </a>
+                        {{-- przycisk szybkiego startu z danego szablonu (widok w: /workouts/templates) --}}
                         <a href="{{ route('workouts.create', ['source_template_id' => $workout->id]) }}"
                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl text-center transition shadow-md uppercase tracking-wide text-sm flex justify-center items-center gap-2">
                             Rozpocznij trening

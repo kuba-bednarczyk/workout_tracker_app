@@ -12,12 +12,13 @@
             <div class="flex justify-between items-center mb-6">
                 <p class="text-gray-600">Wybierz szablon, aby szybko rozpocząć trening.</p>
 
-                {{-- Opcjonalnie: Przycisk do tworzenia czystego szablonu (logikę dorobimy później) --}}
+                {{-- Przycisk do tworzenia czystego szablonu --}}
                 <a href="{{ route('workouts.create', ['is_template' => 1]) }}" class="text-indigo-600 hover:text-indigo-800 font-bold text-sm">
                     + Stwórz nowy plan
                 </a>
             </div>
 
+            {{-- sprawdzenie czy w ogole sa jakies szablony, jak nie to wyswietlam komunikat --}}
             @if($templates->isEmpty())
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-12 text-center border border-dashed border-gray-300">
                     <h3 class="text-lg font-medium text-gray-900">Brak szablonów</h3>
@@ -25,6 +26,7 @@
                 </div>
             @else
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {{--  Grid z kartami szablonow --}}
                     @foreach($templates as $template)
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
                             <div class="p-6">
@@ -39,8 +41,6 @@
                                         </span>
                                     </div>
 
-{{--                                    TODO: zrobić przycisk do edycji --}}
-                                    {{-- Menu opcji (Edytuj, Usuń) --}}
                                     <div class="flex items-center gap-2">
                                         <a href="{{ route('workouts.edit', $template->id) }}"
                                            class="text-gray-400 hover:text-yellow-600 p-2 transition-colors"
@@ -63,7 +63,7 @@
 
                                 </div>
 
-                                {{-- Lista ćwiczeń w szablonie (tylko unikalne nazwy) --}}
+                                {{-- Podgląd ćwiczeń: tylko unikalne, żeby nie było dublowania --}}
                                 <div class="mb-6">
                                     <ul class="text-sm text-gray-600 space-y-1">
                                         @foreach($template->workoutSets->unique('exercise_id')->take(4) as $set)
@@ -78,9 +78,10 @@
                                     </ul>
                                 </div>
 
+                                {{-- NAJWAZNIEJSZE: id szablonu podaje w linku, żeby w formularzu wiedzieć co kopiować --}}
                                 <a href="{{ route('workouts.create', ['source_template_id' => $template->id]) }}"
                                    class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition-colors">
-                                    Rozpocznij trening
+                                    Użyj tego planu
                                 </a>
                             </div>
                         </div>

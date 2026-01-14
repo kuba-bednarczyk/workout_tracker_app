@@ -11,18 +11,47 @@ class ExerciseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $exercises = Exercise::where('user_id', auth()->id())
-            ->orWhereNull('user_id')
-            ->with('muscleGroup')
-            ->get()
-            ->sortBy('name') // sortowanie po nazwie
-            ->groupBy(function ($item) {
-                return $item->muscleGroup->name;
-            });
+        $query = Exercise::query();
 
-        return view('exercises.index', compact('exercises'));
+        // Dołączamy relację (Eager Loading)
+        $query->with('muscleGroup');
+
+        // Aby posortować po nazwie grupy mięśniowej, musimy dołączyć jej tabelę
+        // Używamy leftJoin, żeby nie zgubić ćwiczeń, które nie mają przypisanej grupy (jeśli takie są)
+        $query->select('exercises.*') // Ważne: wybieramy tylko kolumny z ćwiczeń, żeby ID się nie nadpisało
+        ->leftJoin('muscle_groups', 'exercises.muscle_group_id', '=', 'muscle_groups.id');
+
+        // Warunek: Pokaż systemowe LUB użytkownika
+        // Musimy uściślić 'exercises.user_id', bo po joinie nazwy kolumn mogą się dublować
+        $query->where(function($q) {
+            $q->where('exercises.user_id', auth()->id())
+                ->orWhereNull('exercises.user_id');
+        });
+
+        // Filtr 1: Wyszukiwanie po nazwie ćwiczenia
+        if ($request->filled('search')) {
+            $query->where('exercises.name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filtr 2: Wybór grupy mięśniowej
+        if ($request->filled('muscle_group_id')) {
+            $query->where('exercises.muscle_group_id', $request->muscle_group_id);
+        }
+
+        // SORTOWANIE:
+        // 1. po nazwie grupy mięśniowej
+        // 2. po nazwie ćwiczenia
+        $exercises = $query
+            ->orderBy('muscle_groups.name')
+            ->orderBy('exercises.name')
+            ->paginate(10);
+
+        // Listy do dropdowna
+        $muscleGroups = MuscleGroup::orderBy('name')->get();
+
+        return view('exercises.index', compact('exercises', 'muscleGroups'));
     }
 
     /**

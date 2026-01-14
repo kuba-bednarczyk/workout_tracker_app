@@ -14,7 +14,6 @@
                     @csrf
                     @method('PUT')
 
-                    {{-- Pole: Nazwa --}}
                     <div class="mb-6">
                         <label for="name" class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">
                             {{ $workout->is_template ? 'Nazwa planu' : 'Nazwa sesji' }}
